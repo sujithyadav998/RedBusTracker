@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-import { getBusDetails } from "../controllers/BusControllers/busController";
+import { getBusDetails } from "../controllers/api/BusControllers/busController";
 
 const router = express.Router();
 
