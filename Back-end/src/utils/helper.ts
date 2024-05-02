@@ -1,4 +1,7 @@
 import * as dotenv from "dotenv";
+import User from "../models/User";
+import { SessionPayload } from "../types/types";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 /**
@@ -27,6 +30,11 @@ export const getCityCode = (city: string) : Number => {
     return 0;
 }
 
+
+/**
+ * @param {Date} date - The date for booking tickets.
+ * @returns {string} - The formatted date.
+ */
 export const formatDate = (date : Date) : string => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -35,3 +43,14 @@ export const formatDate = (date : Date) : string => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
+
+export const getUser = async (filter : {email ?: string, password?:string}) => {
+    const user = await User.findOne(filter);
+    return user;
+}
+
+export const generateToken = (payload : SessionPayload, secretKey : string, expiresIn : string) => {
+    const token = jwt.sign(payload, secretKey, {expiresIn});
+    return token;
+}
+

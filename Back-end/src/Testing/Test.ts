@@ -62,5 +62,16 @@ async function main() {
     console.log(details);
 }
 
+import { ZodError } from "zod";
+import emailValidator from "../validators/emailValidator";
+async function test() {
+    try{
+        console.log("Hello", emailValidator("testgmail.com"));
 
-main()
+    }
+    catch(err : any) {
+        console.log(err instanceof ZodError);
+    }
+}
+
+test();
