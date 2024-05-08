@@ -6,18 +6,11 @@
             "request": "launch",
             "type": "node-terminal"
         },
-    {
-        "name": "Launch via NPM",
-        "request": "launch",
-        "runtimeArgs": [
-            "run-script",
-            "debug"
-        ],
-        "runtimeExecutable": "npm",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "node"
-    }
+        {
+            "name": "Run npm dev",
+            "request": "launch",
+            "type": "node-terminal",
+            "command": "npm run dev"
+        }
     ]
 }

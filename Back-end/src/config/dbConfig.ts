@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import * as dotenv from "dotenv";
+import EnvVariableError from "../Errors/EnvVariableError";
 
 dotenv.config();
 

@@ -1,16 +1,17 @@
-import express, {Request, Response} from "express";
+import express, {Request, Response, NextFunction} from "express";
 import loginController from "../controllers/auth/loginController";
 import signinController from "../controllers/auth/signinController";
 
 const router = express.Router();
 
 router
+   .route("/register")
+   .post(signinController);
+
+router
     .route("/login")
     .post(loginController);
 
-router
-   .route("/register")
-   .post(signinController);
 
 
 export default router;

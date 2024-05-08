@@ -3,6 +3,10 @@ import { ResponsePayload } from "../../types/types";
 import validateEmail from "../../validators/emailValidator";
 import validatePassword from "../../validators/passwordValidator";
 import { getUser, generateToken } from "../../utils/helper";
+import BadRequestError from "../../Errors/BadRequestError";
+import EnvVariableError from "../../Errors/EnvVariableError";
+
+
 /**
  * @param req - Request object
  * @param res - Response object

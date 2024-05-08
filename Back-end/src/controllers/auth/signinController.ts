@@ -4,19 +4,22 @@ import validatePassword from "../../validators/passwordValidator";
 import { ResponsePayload } from "../../types/types";
 import { generateToken, getUser } from "../../utils/helper";
 import User from "../../models/User";
+import BadRequestError from "../../Errors/BadRequestError";
+import EnvVariableError from "../../Errors/EnvVariableError";
+import UnauthorizedError from "../../Errors/UnauthorizedError";
 /**
  * @param req - Request object
  * @param res - Response object
  */
 export default async function signinController(req : Request, res : Response){
     try{
-        const {email, password} = req.body;
-        if (!email || !password) {
-            throw new BadRequestError("Email or password must be provided");
+        const {email, password, fullName} = req.body;
+        if (!email || !password || !fullName) {
+            throw new BadRequestError("Email or password or Name must be provided");
         }
         // * Validate the email and password format
         if (!validateEmail(email) || !validatePassword(password)) {
-            throw new BadRequestError("Invalid email or password");
+            throw new BadRequestError("Invalid email or password or Name");
         }
 
         // * See if users exists or not
@@ -32,7 +35,7 @@ export default async function signinController(req : Request, res : Response){
         }
 
         // * Create a new user
-        user = await User.create({email, password});
+        user = await User.create({email, fullName, password});
         const token = generateToken({
             userId : user.id,
             email: user.email

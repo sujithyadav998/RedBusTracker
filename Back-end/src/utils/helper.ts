@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import User from "../models/User";
 import { SessionPayload } from "../types/types";
 import jwt from "jsonwebtoken";
+import EnvVariableError from "../Errors/EnvVariableError";
 dotenv.config();
 
 /**
