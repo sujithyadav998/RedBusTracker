@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import { ResponsePayload } from '../../../types/types';
 import BusService from '../../../services/BusService';
 import BadRequestError from '../../../Errors/BadRequestError';
-
+import { isValidDate } from '../../../utils/helper';
 
 export const getCityCodes = async (req : Request, res : Response) => {
     try {
@@ -27,12 +27,15 @@ export const getCityCodes = async (req : Request, res : Response) => {
 
 export const getBusDetails = async (req : Request, res : Response) => {
     try{
-        const {fromCityCode, toCityCode, date} = req.body.payload;
+        const {fromCity, toCity, date} = req.body.payload;
         const busService = BusService.getInstance();
-        if (!busService.isValidCityCode(fromCityCode) || !busService.isValidCityCode(toCityCode)) {
+        if (!await busService.isValidCity(fromCity) || !await busService.isValidCity(toCity)) {
             throw new BadRequestError("Invalid city code");
         }
-        const busDetails = await busService.getBusDetails(fromCityCode, toCityCode, date);
+        if (!isValidDate(date)) {
+            throw new BadRequestError("Invalid date");
+        }
+        const busDetails = await busService.getBusDetails(await busService.getCodeFromCity(fromCity), await busService.getCodeFromCity(toCity), new Date(date));
         const responsePayload : ResponsePayload<Object> = {
             success : true,
             data : { busDetails }
@@ -50,6 +53,7 @@ export const getBusDetails = async (req : Request, res : Response) => {
         }
         else{
             console.error("Internal Server Error");
+            console.error(err);
             res.status(500).json(responsePayload);
         }
     }
@@ -57,5 +61,5 @@ export const getBusDetails = async (req : Request, res : Response) => {
 }
 
 export const scheduleTask = async (req : Request, res : Response) => {
-    
+
 }

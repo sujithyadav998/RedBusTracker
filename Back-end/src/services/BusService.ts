@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/helper";
+import { formatDate, readJsonFile } from "../utils/helper";
 import fs from 'fs';
 import * as path from "path";
 import UnknownCityCodeError from "../Errors/UnknownCityCodeError";
@@ -24,7 +24,12 @@ export default class BusService {
     
     async getCityCodes() {
         if (Object.keys(this._cityCodes).length === 0) {
-            this._cityCodes = await this._fetchCityCodes();
+            try{
+                const data : { [key: string]: number } = await readJsonFile(path.join(__dirname, "../constants", "CityCodes.json"));
+                this._cityCodes = data;
+            } catch (err) {
+                this._cityCodes = await this._fetchCityCodes();
+            }
         }
         return this._cityCodes;
     }
@@ -54,7 +59,8 @@ export default class BusService {
         }
         const response = await fetch(url, {
             headers : {
-                'accept' : "application/json, text/plain, */*"
+                'accept' : "application/json, text/plain, */*",
+                'content-type' : 'application/json'
             },
             method: "POST"
         });
@@ -62,8 +68,11 @@ export default class BusService {
         return data;
     }
 
-    isValidCityCode(cityCode: number): boolean {
-        return this._cityCodes[cityCode]!== undefined;
+    async isValidCity(city: string): Promise<boolean> {
+        if (Object.keys(this._cityCodes).length === 0) {
+            await this.getCityCodes();
+        }
+        return this._cityCodes[city]!== undefined;
     }
 
     /**

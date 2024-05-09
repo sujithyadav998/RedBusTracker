@@ -38,8 +38,8 @@ export const getCityCode = (city: string) : Number => {
  * @returns {Promise<any>} - Promise resolved when data is in json format else rejected
 */
 
-export const readJsonFile = (filePath: string) : Promise<any> => {
-    return new Promise<any>((resolve, reject) => {
+export const readJsonFile = (filePath: string) : Promise<{[key: string]: number}> => {
+    return new Promise<{[key : string] : number}>((resolve, reject) => {
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 reject(err);
@@ -52,6 +52,17 @@ export const readJsonFile = (filePath: string) : Promise<any> => {
             }
         })
     })
+}
+
+export const isValidDate = (dateNumber: number): boolean => {
+    try{
+        const date : Date = new Date(dateNumber);
+        if (date > new Date()) return true;
+        else return false;
+    }
+    catch (err) {
+        return false;
+    }
 }
 
 
