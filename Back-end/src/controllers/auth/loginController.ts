@@ -1,4 +1,4 @@
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 import { ResponsePayload } from "../../types/types";
 import validateEmail from "../../validators/emailValidator";
 import validatePassword from "../../validators/passwordValidator";

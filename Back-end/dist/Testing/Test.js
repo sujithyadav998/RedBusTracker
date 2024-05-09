@@ -1,4 +1,8 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const getDetails = async (url, headers, body, filters = {}) => {
     const response = await fetch(url, {
         headers,
@@ -56,4 +60,14 @@ async function main() {
     // }
     console.log(details);
 }
-main();
+const zod_1 = require("zod");
+const emailValidator_1 = __importDefault(require("../validators/emailValidator"));
+async function test() {
+    try {
+        console.log("Hello", (0, emailValidator_1.default)("testgmail.com"));
+    }
+    catch (err) {
+        console.log(err instanceof zod_1.ZodError);
+    }
+}
+test();

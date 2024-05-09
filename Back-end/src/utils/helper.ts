@@ -3,6 +3,7 @@ import User from "../models/User";
 import { SessionPayload } from "../types/types";
 import jwt from "jsonwebtoken";
 import EnvVariableError from "../Errors/EnvVariableError";
+import fs from 'fs';
 dotenv.config();
 
 /**
@@ -29,6 +30,28 @@ export const generateURL = (fromCity: string, toCity: string, date : Date): stri
  */
 export const getCityCode = (city: string) : Number => {
     return 0;
+}
+
+
+/** 
+ * @param {string} filePath - path of the file to read
+ * @returns {Promise<any>} - Promise resolved when data is in json format else rejected
+*/
+
+export const readJsonFile = (filePath: string) : Promise<any> => {
+    return new Promise<any>((resolve, reject) => {
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                reject(err);
+            }
+            try{
+                const jsonData = JSON.parse(data.toString());
+                resolve(jsonData);
+            } catch (err) {
+                reject(err);
+            }
+        })
+    })
 }
 
 

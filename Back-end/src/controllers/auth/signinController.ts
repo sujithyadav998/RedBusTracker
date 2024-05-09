@@ -10,6 +10,7 @@ import UnauthorizedError from "../../Errors/UnauthorizedError";
 /**
  * @param req - Request object
  * @param res - Response object
+ * @returns - Response object with Jwt token on sucess else returns Response error object
  */
 export default async function signinController(req : Request, res : Response){
     try{

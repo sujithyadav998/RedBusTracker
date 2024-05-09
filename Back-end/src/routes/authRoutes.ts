@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from "express";
+import express from "express";
 import loginController from "../controllers/auth/loginController";
 import signinController from "../controllers/auth/signinController";
 
